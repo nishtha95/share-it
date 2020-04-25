@@ -23,6 +23,11 @@ public class UserDAO extends AuditableDAO{
 	 * 
 	 */
 	private static final long serialVersionUID = 1L;
+	
+	@NotBlank
+	@Getter
+	@Setter
+	private String username;
 
 	@Email @NotBlank
 	@Column(unique = true)
