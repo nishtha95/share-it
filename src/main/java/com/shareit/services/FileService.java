@@ -13,12 +13,14 @@ import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
+
 import com.shareit.dtos.FileDTO;
 import com.shareit.exception.ShareItException;
 import com.shareit.models.FileDAO;
 import com.shareit.models.UserDAO;
 import com.shareit.repositories.FileRepository;
 import com.shareit.repositories.UserRepository;
+import com.shareit.util.CompressUtil;
 
 @Service
 public class FileService {
@@ -38,7 +40,7 @@ public class FileService {
 		fileDAO.setTitle(fileDTO.getTitle());
 		fileDAO.setDescription(fileDTO.getDescription());
 		try {
-			fileDAO.setFile(file.getBytes());
+			fileDAO.setFile(CompressUtil.compressBytes(file.getBytes()));
 		} catch (IOException e) {
 			throw new ShareItException(e.getMessage(),e.getCause());
 		}
@@ -52,8 +54,10 @@ public class FileService {
 				.path("/")
 				.path(fileDAO.getTitle()).path("/db")
 				.toUriString();
+		
 		return fileDownloadUri;
 	}
+	
 	
 	public FileDAO downloadFile(String id,String title) throws ShareItException{
 		FileDAO fileDAO=fileRepository.findById(Long.parseLong(id)).orElse(null);
@@ -63,6 +67,7 @@ public class FileService {
 		if(!fileDAO.getTitle().equals(title)){
 			throw new ShareItException("Invalid File URL");
 		}
+		fileDAO.setFile(CompressUtil.decompressBytes(fileDAO.getFile()));
 		return fileDAO;
 	}
 
