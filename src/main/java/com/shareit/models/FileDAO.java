@@ -1,5 +1,6 @@
 package com.shareit.models;
 
+import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
@@ -17,17 +18,16 @@ public class FileDAO extends AuditableDAO{
 	@NotBlank
 	@Getter
 	@Setter
-	private String text;
+	private String title;
 	
 	@NotBlank
 	@Getter
 	@Setter
 	private String description;
 	
-	@NotBlank
 	@Getter
 	@Setter
-	private Byte[] file;
+	private byte[] file;
 	
 	@ManyToOne
 	@JoinColumn(name = "user_id",nullable = false)
