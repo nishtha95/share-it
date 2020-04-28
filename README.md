@@ -57,28 +57,22 @@ Steps to test application:
         "title":"Aadhar",
         "description": "My aadhar card"
       }
-      - Click on send button once done with above steps.
-      - A file download URL will appear as response which can be used to download file in future.
+     - Click on send button once done with above steps.
+     - A file download URL will appear as response which can be used to download file in future.
       
   4) To download a file make GET request through browser by entering the URL provided by upload request.
   Note- Download request is not authenticated so that provided URL can be shared and anybody receiving it can download file 
   irrespective of the fact that he/she is authenticated user or not.
   
   5) To fetch all uploaded files make a GET request through postman by adding JWT token in header as described in upload request.
-    Fetch Files API: http://localhost:8080/fetchAllFiles
+    Fetch Files API: http://localhost:8080/files
     
-  6) To delete an uploaded file make A POST request through postman by adding JWT token in header as described in upload request.
-    Delete File API: http://localhost:8080/deleteFile
-    In Request body add any JSON object from the response of fetchALlFiles API.
-    For eg. {
-        "id": 23,
-        "title": "Aadhar",
-        "description": "My aadhar card",
-        "createdAt": "2020-04-26T09:37:52.104+0000"
-    }
+  6) To delete an uploaded file make a DELETE request through postman by adding JWT token in header as described in upload request.
+    Delete File API: http://localhost:8080/file/{id}
+    In Request URL add any file id from the response of http://localhost:8080/files API in place of {id}.
+    For eg. http://localhost:8080/file/23
     
-  Note: All the above API need authorization header except register, login and download API. So, make sure that header is added with 
-  correct JWT token before making any other request.
+  Note: All the above API need authorization header except register, login and download API. So, make sure that header is 	added with correct JWT token before making any other request.
   
       
    
