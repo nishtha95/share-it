@@ -15,6 +15,7 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RequestPart;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.multipart.MultipartFile;
@@ -45,7 +46,7 @@ public class FileController {
 		return ResponseEntity.ok(fileDownloadUri);
 	}
 	
-	@RequestMapping("/files/download/{id}/{title}/db")
+	@RequestMapping("/files/download/{id}/{title}")
 	public ResponseEntity<?> downloadFromDB(@PathVariable String id,@PathVariable String title) {
 		FileDAO file=null;
 		try {
@@ -59,17 +60,17 @@ public class FileController {
 				.body(file.getFile());
 	}
 	
-	@RequestMapping("/fetchAllFiles")
+	@RequestMapping("/files")
 	public ResponseEntity<?> fetchAllFiles() {
 		List<FileDTO> files=fileService.fetchAllFiles();
 		return ResponseEntity.ok(files);
 	}
 	
-	@RequestMapping(value = "/deleteFile",method = RequestMethod.POST)
-	public ResponseEntity<?> deleteFile(@RequestBody FileDTO fileDTO) {
+	@RequestMapping(value = "/file/{id}",method = RequestMethod.DELETE)
+	public ResponseEntity<?> deleteFile(@PathVariable String id) {
 		String response=null;
 		try {
-			response = fileService.deleteFile(fileDTO);
+			response = fileService.deleteFile(Long.parseLong(id));
 		} catch (ShareItException e) {
 			return new ResponseEntity<>(e.getMessage(),HttpStatus.INTERNAL_SERVER_ERROR);
 		}

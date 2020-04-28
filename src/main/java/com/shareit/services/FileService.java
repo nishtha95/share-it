@@ -52,7 +52,7 @@ public class FileService {
 				.path("/files/download/")
 				.path(fileDAO.getId().toString())
 				.path("/")
-				.path(fileDAO.getTitle()).path("/db")
+				.path(fileDAO.getTitle())
 				.toUriString();
 		
 		return fileDownloadUri;
@@ -89,8 +89,8 @@ public class FileService {
 	}
 
 	@Transactional
-	public String deleteFile(FileDTO fileDTO) throws ShareItException{
-		FileDAO fileDAO=fileRepository.findById(fileDTO.getId()).orElse(null);
+	public String deleteFile(long id) throws ShareItException{
+		FileDAO fileDAO=fileRepository.findById(id).orElse(null);
 		if(fileDAO!=null){
 			fileRepository.delete(fileDAO);
 		}
